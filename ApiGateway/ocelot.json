@@ -13,7 +13,7 @@
     },
 
     {
-      "DownstreamPathTemplate": "/api/product",
+      "DownstreamPathTemplate": "/api/order",
       "DownstreamSheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -21,7 +21,7 @@
           "Port": 5002
         }
       ],
-      "UpstreamPathTemplate": "/product-service/product"
+      "UpstreamPathTemplate": "/order-service/order"
     }
   ],
 
