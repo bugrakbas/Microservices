@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Data.DTOs.Response
 {
-    public class GetOrderResponseDto
+    public class OrderResponse
     {
 
         public int Id { get; set; }

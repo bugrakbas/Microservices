@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Data.DTOs.Request
 {
-    public class UpdateCustomerRequestDto
+    public class CustomerRequest
     {
         public Guid CustomerId { get; set; }
         public string Name { get; set; }

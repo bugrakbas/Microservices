@@ -23,7 +23,7 @@ namespace CustomerApi.Controllers
         }
 
         [HttpPost("CreateCustomer")]
-        public async Task<ResponseDto<string>> CreateCustomer(CustomerRequestDto requestDto)
+        public async Task<IActionResult> CreateCustomer(CustomerRequestDto requestDto)
         {
             try
             {
@@ -38,35 +38,21 @@ namespace CustomerApi.Controllers
                         UpdatedAt = DateTime.Now,
                     });
                     if (unitOf.SaveChanges() == 1)
-                        return new ResponseDto<string>()
-                        {
-                            IsSuccess = true,
-                            Message = "Completed",
-                            Status = HttpStatusCode.Created
-                        };
+                        return Ok();
+
                     else
-                        return new ResponseDto<string>()
-                        {
-                            IsSuccess = false,
-                            Message = "Fail",
-                            Status = HttpStatusCode.BadRequest
-                        };
+                        return BadRequest();
                 }
             }
             catch (Exception ex)
             {
-                return new ResponseDto<string>()
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Status = HttpStatusCode.BadRequest
-                };
+                return BadRequest();
             }
 
         }
 
         [HttpPut("UpdateCustomer")]
-        public async Task<ResponseDto<string>> UpdateCustomer(UpdateCustomerRequestDto requestDto)
+        public async Task<IActionResult> UpdateCustomer(CustomerRequest requestDto)
         {
             try
             {
@@ -87,34 +73,19 @@ namespace CustomerApi.Controllers
                         CreatedAt = customer.CreatedAt
                     });
                     if (unitOf.SaveChanges() == 1)
-                        return new ResponseDto<string>()
-                        {
-                            IsSuccess = true,
-                            Message = "Completed",
-                            Status = HttpStatusCode.OK
-                        };
+                        return Ok();
                     else
-                        return new ResponseDto<string>()
-                        {
-                            IsSuccess = false,
-                            Message = "Fail",
-                            Status = HttpStatusCode.BadRequest
-                        };
+                        return BadRequest();
                 }
             }
             catch (Exception ex)
             {
-                return new ResponseDto<string>()
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Status = HttpStatusCode.BadRequest
-                };
+                return BadRequest();
             }
         }
 
         [HttpDelete("DeleteCustomer")]
-        public async Task<ResponseDto<string>> DeleteCustomer(Guid Id)
+        public async Task<IActionResult> DeleteCustomer(Guid Id)
         {
             try
             {
@@ -122,37 +93,22 @@ namespace CustomerApi.Controllers
                 {
                     unitOf.GetRepository<Customer>().Delete(unitOf.GetRepository<Customer>().Get(Id));
                     if (unitOf.SaveChanges() == 1)
-                        return new ResponseDto<string>()
-                        {
-                            Status = HttpStatusCode.OK,
-                            Message = "Success",
-                            IsSuccess = true
-                        };
+                        return Ok();
                     else
-                        return new ResponseDto<string>()
-                        {
-                            Status = HttpStatusCode.BadRequest,
-                            Message = "Failed",
-                            IsSuccess = false
-                        };
+                        return BadRequest();
                 };
 
             }
             catch (Exception ex)
             {
-                return new ResponseDto<string>()
-                {
-                    Status = HttpStatusCode.BadRequest,
-                    Message = ex.Message,
-                    IsSuccess = false
-                }; ;
+                return BadRequest();
 
             }
 
         }
 
         [HttpGet("GetCustomer")]
-        public async Task<ResponseDto<GetCustomerResponseDto>> GetCustomer(Guid Id)
+        public async Task<IActionResult> GetCustomer(Guid Id)
         {
             try
             {
@@ -160,43 +116,20 @@ namespace CustomerApi.Controllers
                 {
                     var customer = unitOf.GetRepository<Customer>().Get(Id);
                     if (customer != null)
-                        return new ResponseDto<GetCustomerResponseDto>()
-                        {
-                            Data = new GetCustomerResponseDto()
-                            {
-                                Id = Id,
-                                Email = customer.Email,
-                                Name = customer.Name,
-                                CreatedAt = customer.CreatedAt,
-                                UpdatedAt = customer.UpdatedAt
-                            },
-                            IsSuccess = true,
-                            Message = "Completed",
-                            Status = HttpStatusCode.OK
-                        };
+                        return Ok();
                     else
-                        return new ResponseDto<GetCustomerResponseDto>()
-                        {
-                            IsSuccess = false,
-                            Message = "Not found",
-                            Status = HttpStatusCode.NoContent
-                        };
+                        return NotFound();
                 }
             }
 
             catch (Exception ex)
             {
-                return new ResponseDto<GetCustomerResponseDto>()
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Status = HttpStatusCode.NoContent
-                };
+                return NoContent();
             }
         }
 
         [HttpGet("GetCustomerAll")]
-        public async Task<ResponseDto<List<Customer>>> GetCustomerAll()
+        public async Task<IActionResult> GetCustomerAll()
         {
             try
             {
@@ -217,35 +150,19 @@ namespace CustomerApi.Controllers
                         });
                     }
                     if (customers.Count() > 0)
-                        return new ResponseDto<List<Customer>>
-                        {
-                            IsSuccess = true,
-                            Data = customers,
-                            Message = "Success",
-                            Status = HttpStatusCode.OK
-                        };
+                        return Ok();
                     else
-                        return new ResponseDto<List<Customer>>
-                        {
-                            IsSuccess = false,
-                            Message = "No content",
-                            Status = HttpStatusCode.NoContent
-                        };
+                        return NoContent();
                 }
             }
             catch (Exception ex)
             {
-                return new ResponseDto<List<Customer>>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Status = HttpStatusCode.NoContent
-                };
+                return NoContent();
             }
         }
 
         [HttpGet("Validate")]
-        public async Task<ResponseDto<ValidateResponse>> Validate(string email, string password)
+        public async Task<IActionResult> Validate(string email, string password)
         {
             try
             {
@@ -271,38 +188,17 @@ namespace CustomerApi.Controllers
                                 CurrentToken = token,
                             });
                             unitOf.SaveChanges();
-                            return new ResponseDto<ValidateResponse>
-                            {
-                                Data = new ValidateResponse() { Token = token },
-                                IsSuccess = true,
-                                Message = "Success",
-                                Status = HttpStatusCode.OK
-                            };
+                            return Ok();
                         }
-                        return new ResponseDto<ValidateResponse>
-                        {
-                            IsSuccess = false,
-                            Message = "Failed",
-                            Status = HttpStatusCode.Unauthorized
-                        };
+                      return Unauthorized();
                     }
                     else
-                        return new ResponseDto<ValidateResponse>
-                        {
-                            IsSuccess = false,
-                            Message = "Failed",
-                            Status = HttpStatusCode.Unauthorized
-                        };
+                        return Unauthorized();
                 }
             }
             catch (Exception ex)
             {
-                return new ResponseDto<ValidateResponse>
-                {
-                    IsSuccess = false,
-                    Message = ex.Message,
-                    Status = HttpStatusCode.Unauthorized
-                };
+                return Unauthorized();
             }
 
         }

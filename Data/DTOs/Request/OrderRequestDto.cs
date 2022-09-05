@@ -18,8 +18,6 @@ namespace Data.DTOs.Request
         [Required]
         public int ProductId { get; set; }
         [Required]
-        public int CustomerId { get; set; }
-        [Required]
-        public string Status { get; set; }
+        public Guid CustomerId { get; set; }
     }
 }

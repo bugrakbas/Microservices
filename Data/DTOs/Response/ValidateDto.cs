@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Data.DTOs.Response
 {
-    public class ValidateResponse
+    public class ValidateDto
     {
         public string Token { get; set; }
     }

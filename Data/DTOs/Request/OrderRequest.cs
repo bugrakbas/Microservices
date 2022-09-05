@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Data.DTOs.Request
 {
-    public class UpdateOrderRequestDto
+    public class OrderRequest
     {
         [Required]
-        public int OrderId { get; set; }
+        public Guid OrderId { get; set; }
         [Required]
         public int Quantity { get; set; }
         [Required]
@@ -20,7 +20,7 @@ namespace Data.DTOs.Request
         [Required]
         public int ProductId { get; set; }
         [Required]
-        public int CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         [Required]
         public string Status { get; set; }
     }
