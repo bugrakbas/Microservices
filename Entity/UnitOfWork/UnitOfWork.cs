@@ -10,10 +10,10 @@ namespace DataAccess.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private DbContext Context;
-        public UnitOfWork(DbContext _context)
+        private DbContext _dbContext;;
+        public UnitOfWork(DbContext _dbContext)
         {
-            Context = _context;
+            _dbContext = _dbContext;
         }
 
         public void Dispose()
@@ -22,12 +22,12 @@ namespace DataAccess.UnitOfWork
 
         public IRepository<T> GetRepository<T>() where T : class
         {
-            return new Repository<T>(Context);
+            return new Repository<T>(_dbContext);
         }
 
         public int SaveChanges()
         {
-            return Context.SaveChanges();
+            return _dbContext.SaveChanges();
         }
     }
 }

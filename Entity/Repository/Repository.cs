@@ -10,12 +10,12 @@ namespace DataAccess.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly DbContext DbContext;
+        private readonly DbContext _dbContext;
         private readonly DbSet<T> DbSet;
 
         public Repository(DbContext dbContext)
         {
-            DbContext = dbContext;
+            _dbContext = dbContext;
             DbSet = dbContext.Set<T>();
         }
 
@@ -41,7 +41,7 @@ namespace DataAccess.Repository
 
         public IQueryable<T> GetAll()
         {
-            return DbContext.Set<T>().AsNoTracking();
+            return _dbContext.Set<T>().AsNoTracking();
         }
 
         public IQueryable<T> GetAll(Expression<Func<T, bool>> condition)
@@ -54,7 +54,7 @@ namespace DataAccess.Repository
         public void Update(T entity)
         {
             DbSet.Attach(entity);
-            DbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.Entry(entity).State = EntityState.Modified;
         }
     }
 }

@@ -14,8 +14,6 @@ namespace DataAccess.Repository
 
         void Delete(T entity);
 
-
-        /// <returns></returns>
         T Get(Guid id);
 
         T Get(Expression<Func<T, bool>> condition);

@@ -1,6 +1,7 @@
 ﻿using Data.Context;
 using Data.Models;
 using DataAccess.UnitOfWork;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -14,16 +15,17 @@ namespace Data.Jwt
 {
     public class JwtManager
     {
-        private const string Secret = "db3OIsj+BXE9NZDy0t8W3TcNekrF+2d/1sFnWG4HnV8TZY30iTOdtVWJG8abWvB1GlOgJuQZdcF2Luqm/hccMw==";
+        private readonly IConfiguration _configuration;
 
         private DBContext _dBContext;
-        public JwtManager(DBContext dBContext)
+        public JwtManager(DBContext dBContext, IConfiguration configuration)
         {
             _dBContext = dBContext;
+            _configuration = configuration;
         }
-        public static string GenerateToken(string email, int expireMinutes = 20)
+        public string GenerateToken(string email, int expireMinutes = 20)
         {
-            var symmetricKey = Convert.FromBase64String(Secret);
+            var symmetricKey = Convert.FromBase64String(_configuration["JWT:Key"]);
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var now = DateTime.UtcNow;
@@ -45,7 +47,7 @@ namespace Data.Jwt
             return token;
         }
 
-        public static ClaimsPrincipal GetPrincipal(string token)
+        public ClaimsPrincipal GetPrincipal(string token)
         {
             try
             {
@@ -55,7 +57,7 @@ namespace Data.Jwt
                 if (jwtToken == null)
                     return null;
 
-                var symmetricKey = Convert.FromBase64String(Secret);
+                var symmetricKey = Convert.FromBase64String(_configuration["JWT:Key"]);
 
                 var validationParameters = new TokenValidationParameters()
                 {
