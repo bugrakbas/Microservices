@@ -27,7 +27,7 @@ namespace Data.Jwt
                 throw new ArgumentNullException(nameof(context));
             }
 
-            context.Result = new AddChallengeOnUnauthorizedResult(challenge, context.Result);
+            context.Result = new UnauthorizedResult(challenge, context.Result);
         }
     }
 }

@@ -9,9 +9,9 @@ using System.Web.Http;
 
 namespace Data.Jwt
 {
-    public class AddChallengeOnUnauthorizedResult : IHttpActionResult
+    public class UnauthorizedResult : IHttpActionResult
     {
-        public AddChallengeOnUnauthorizedResult(AuthenticationHeaderValue challenge, IHttpActionResult innerResult)
+        public UnauthorizedResult(AuthenticationHeaderValue challenge, IHttpActionResult innerResult)
         {
             Challenge = challenge;
             InnerResult = innerResult;

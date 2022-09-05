@@ -24,7 +24,7 @@ namespace Data.Jwt
 
             if (string.IsNullOrEmpty(authorization.Parameter))
             {
-                context.ErrorResult = new AuthenticationFailureResult("Missing Jwt Token", request);
+                context.ErrorResult = new AuthenticationResult("Missing Jwt Token", request);
                 return;
             }
 
@@ -32,7 +32,7 @@ namespace Data.Jwt
             var principal = await AuthenticateJwtToken(token);
 
             if (principal == null)
-                context.ErrorResult = new AuthenticationFailureResult("Invalid token", request);
+                context.ErrorResult = new AuthenticationResult("Invalid token", request);
 
             else
                 context.Principal = principal;

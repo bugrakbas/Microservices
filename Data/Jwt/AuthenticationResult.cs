@@ -8,9 +8,9 @@ using System.Web.Http;
 
 namespace Data.Jwt
 {
-    public class AuthenticationFailureResult : IHttpActionResult
+    public class AuthenticationResult : IHttpActionResult
     {
-        public AuthenticationFailureResult(string reasonPhrase, HttpRequestMessage request)
+        public AuthenticationResult(string reasonPhrase, HttpRequestMessage request)
         {
             ReasonPhrase = reasonPhrase;
             Request = request;
